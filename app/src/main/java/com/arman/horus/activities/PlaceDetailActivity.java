@@ -39,7 +39,7 @@ public class PlaceDetailActivity extends AppCompatActivity {
 
         // set address
         TextView fromAddressView = (TextView) findViewById(R.id.place_detail_address);
-        fromAddressView.setText(placeDetail.address);
+        fromAddressView.setText(placeDetail.address.getDisplayName());
 
         // set description
         TextView descriptionView = (TextView) findViewById(R.id.place_detail_description);

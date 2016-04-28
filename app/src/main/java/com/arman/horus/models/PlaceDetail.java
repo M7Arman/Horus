@@ -10,11 +10,10 @@ public class PlaceDetail {
     public int images;
     public String title;
     public String description;
-    //TODO: Change type target something like iDate
-    public String address;
+    public Address address;
     public String id;
 
-    public PlaceDetail(int images, String title, String description, String address, String id) {
+    public PlaceDetail(int images, String title, String description, Address address, String id) {
         this.images = images;
         this.title = title;
         this.description = description;
@@ -28,7 +27,7 @@ public class PlaceDetail {
                 "Հայերենը լայնորեն օգտագործվում է պատմական Հայաստանի տարածքներում (Ջավախք, Պարսկահայք, Արևմտյան Հայաստանի որոշ շրջաններ) և Հայկական սփյուռքում։ Առավել կիրառական է Եվրոպայում (Ֆրանսիա, Գերմանիա, Իսպանիա, Բելգիա, Շվեյցարիա, Իտալիա, Հունաստան, Բուլղարիա և այլն), Մերձավոր Արևելքում (հիմնականում Իրան, Սիրիա, Լիբանան, Իրաք, Պաղեստին, Իսրայել, Եգիպտոս, մասամբ՝ Թուրքիա) և նախկին ԽՍՀՄ հանրապետություններում՝ Ռուսաստանի Դաշնությունում (Հարավային դաշնային տարածաշրջան, Մոսկվա և խոշոր քաղաքներ), Վրաստանում, Ուկրաինայում և այլուր։\n\n" +
                 "Արևմտյան կիսագնդում հայերեն են խոսում ԱՄՆ-ում, Կանադայում, Լատինական Ամերիկայում (Ուրուգվայ, Արգենտինա, Բրազիլիա)։ Հայկական համայնքներ կան նաև Աֆրիկայում, Ավստրալիայում և այլուր։";
         String dummyTitle = "Trip target Maymekh";
-        String dummyAddress = "Mt Maymekh";
+        Address dummyAddress = new Address("Mt Maymekh");
         return new PlaceDetail(R.drawable.trip1, dummyTitle, dummyDescription, dummyAddress, "place_1");
     }
 }

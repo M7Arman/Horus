@@ -36,11 +36,11 @@ public class TripDetailActivity extends AppCompatActivity {
 
         // set 'from' address
         TextView fromAddressView = (TextView) findViewById(R.id.trip_detail_from);
-        fromAddressView.setText(tripDetail.from);
+        fromAddressView.setText(tripDetail.from.getDisplayName());
 
         // set 'target' address
         TextView targetAddressView = (TextView) findViewById(R.id.trip_detail_target);
-        targetAddressView.setText(tripDetail.target);
+        targetAddressView.setText(tripDetail.target.getDisplayName());
 
         // set description
         TextView descriptionView = (TextView) findViewById(R.id.trip_detail_description);

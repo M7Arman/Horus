@@ -10,13 +10,12 @@ public class TripDetail {
     public int images;
     public String title;
     public String description;
-    //TODO: Change type target something like iDate
     public String startDate;
-    public String from;
-    public String target;
+    public Address from;
+    public Address target;
     public String id;
 
-    public TripDetail(int images, String title, String description, String startDate, String from, String to, String id) {
+    public TripDetail(int images, String title, String description, String startDate, Address from, Address to, String id) {
         this.images = images;
         this.title = title;
         this.description = description;
@@ -33,8 +32,8 @@ public class TripDetail {
                 "Արևմտյան կիսագնդում հայերեն են խոսում ԱՄՆ-ում, Կանադայում, Լատինական Ամերիկայում (Ուրուգվայ, Արգենտինա, Բրազիլիա)։ Հայկական համայնքներ կան նաև Աֆրիկայում, Ավստրալիայում և այլուր։";
         String dummyTitle = "Trip target Maymekh";
         String dummyStartDate = "Monday, September 13 - 08:00";
-        String dummyFromAddress = "Tigran Mets 15/34";
-        String dummyTarget = "Mt Maymekh";
+        Address dummyFromAddress = new Address("Tigran Mets 15/34");
+        Address dummyTarget = new Address("Mt Maymekh");
         return new TripDetail(R.drawable.trip1, dummyTitle, dummyDescription, dummyStartDate, dummyFromAddress, dummyTarget, "trip_1");
     }
 }
