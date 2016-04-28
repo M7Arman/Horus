@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.arman.horus.R;
 import com.arman.horus.models.PlaceDetail;
+import com.arman.horus.providers.DataProvider;
 
 public class PlaceDetailActivity extends AppCompatActivity {
 
@@ -27,7 +28,7 @@ public class PlaceDetailActivity extends AppCompatActivity {
     }
 
     private void showPlaceDetail(String id) {
-        PlaceDetail placeDetail = PlaceDetail.dummyPlaceDetail();
+        PlaceDetail placeDetail = DataProvider.dummyPlaceDetail();
 
         // set title
         getSupportActionBar().setTitle(placeDetail.title);
