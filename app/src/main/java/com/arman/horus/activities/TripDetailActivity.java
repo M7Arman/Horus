@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.arman.horus.R;
 import com.arman.horus.models.TripDetail;
-import com.arman.horus.providers.DataProvider;
+import com.arman.horus.providers.ContentProvider;
 
 public class TripDetailActivity extends AppCompatActivity {
 
@@ -28,7 +28,8 @@ public class TripDetailActivity extends AppCompatActivity {
     }
 
     private void showTripDetail(String id) {
-        TripDetail tripDetail = DataProvider.dummyTripDetail();
+        //TODO: get the trip detail using the given ID
+        TripDetail tripDetail = ContentProvider.dummyTripDetail();
         // set title
         getSupportActionBar().setTitle(tripDetail.title);
         // set image

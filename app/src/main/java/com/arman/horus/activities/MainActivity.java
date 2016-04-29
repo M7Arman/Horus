@@ -5,21 +5,21 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MotionEvent;
-import android.view.View;
 
 import com.arman.horus.R;
 import com.arman.horus.adapters.TabPagerAdapter;
+import com.arman.horus.utils.AppStatus;
 
 public class MainActivity extends AppCompatActivity {
 
     private ViewPager mViewPager;
+    private static final String LOG_TAG = MainActivity.class.getName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        AppStatus.init(this);
         addTabBar();
     }
 
@@ -47,12 +47,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-            }
-        });
-        mViewPager.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return true;
             }
         });
     }

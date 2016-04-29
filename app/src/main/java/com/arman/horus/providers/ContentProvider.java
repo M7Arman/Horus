@@ -5,6 +5,7 @@ import com.arman.horus.models.Address;
 import com.arman.horus.models.CardItem;
 import com.arman.horus.models.PlaceDetail;
 import com.arman.horus.models.TripDetail;
+import com.arman.horus.utils.AppStatus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +13,43 @@ import java.util.List;
 /**
  * Created by arman on 4/28/16.
  */
-public class DataProvider {
+public class ContentProvider {
+
+    public static List<CardItem> popularTrips() {
+        if (AppStatus.isOnline()) {
+            // TODO: get from backend
+        } else {
+            //TODO: ????
+        }
+        throw new UnsupportedOperationException("the function is not implemented yet!");
+    }
+
+    public static List<CardItem> popularPlaces() {
+        if (AppStatus.isOnline()) {
+            // TODO: get from backend
+        } else {
+            //TODO: ????
+        }
+        throw new UnsupportedOperationException("the function is not implemented yet!");
+    }
+
+    public static List<CardItem> tripDetail(String id) {
+        if (AppStatus.isOnline()) {
+            // TODO: get from backend by ID
+        } else {
+            //TODO: ????
+        }
+        throw new UnsupportedOperationException("the function is not implemented yet!");
+    }
+
+    public static List<CardItem> placeDetail(String id) {
+        if (AppStatus.isOnline()) {
+            // TODO: get from backend by ID
+        } else {
+            //TODO: ????
+        }
+        throw new UnsupportedOperationException("the function is not implemented yet!");
+    }
 
     public static List<CardItem> dummyTrips() {
         List<CardItem> cards = new ArrayList<>();

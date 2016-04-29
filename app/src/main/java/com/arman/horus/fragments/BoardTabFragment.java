@@ -13,7 +13,7 @@ import com.arman.horus.adapters.CardItemsAdapter;
 import com.arman.horus.listeners.OnPlaceCardClickListener;
 import com.arman.horus.listeners.OnTripCardClickListener;
 import com.arman.horus.models.CardItem;
-import com.arman.horus.providers.DataProvider;
+import com.arman.horus.providers.ContentProvider;
 
 import java.util.List;
 
@@ -37,7 +37,8 @@ public class BoardTabFragment extends Fragment {
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
 
         placesRecyclerView.setLayoutManager(layoutManager);
-        List<CardItem> cardItems = DataProvider.dummyPlaces();
+        //TODO: get popular places instead of dummy
+        List<CardItem> cardItems = ContentProvider.dummyPlaces();
         RecyclerView.Adapter cardsAdapter = new CardItemsAdapter(cardItems, new OnPlaceCardClickListener(getContext()));
         placesRecyclerView.setAdapter(cardsAdapter);
     }
@@ -50,7 +51,8 @@ public class BoardTabFragment extends Fragment {
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
 
         tripsRecyclerView.setLayoutManager(layoutManager);
-        List<CardItem> cardItems = DataProvider.dummyTrips();
+        //TODO: get popular trips instead of dummy
+        List<CardItem> cardItems = ContentProvider.dummyTrips();
         RecyclerView.Adapter cardsAdapter = new CardItemsAdapter(cardItems, new OnTripCardClickListener(getContext()));
         tripsRecyclerView.setAdapter(cardsAdapter);
     }
