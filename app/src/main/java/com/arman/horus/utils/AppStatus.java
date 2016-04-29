@@ -10,7 +10,6 @@ import android.net.NetworkInfo;
 public class AppStatus {
 
     private static final String LOG_TAG = AppStatus.class.getName();
-    private static final AppStatus instance = new AppStatus();
     private static Context context;
 
     private AppStatus() {

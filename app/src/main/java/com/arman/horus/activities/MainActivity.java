@@ -8,11 +8,11 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.arman.horus.R;
 import com.arman.horus.adapters.TabPagerAdapter;
+import com.arman.horus.listeners.OnTabSelectedListener;
 import com.arman.horus.utils.AppStatus;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ViewPager mViewPager;
     private static final String LOG_TAG = MainActivity.class.getName();
 
     @Override
@@ -31,24 +31,11 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.addTab(tabLayout.newTab().setText("Profile"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        mViewPager = (ViewPager) findViewById(R.id.pager);
+        ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
         final PagerAdapter adapter = new TabPagerAdapter(getSupportFragmentManager());
-        mViewPager.setAdapter(adapter);
-        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                mViewPager.setCurrentItem(tab.getPosition());
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-            }
-        });
+        viewPager.setAdapter(adapter);
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        tabLayout.setOnTabSelectedListener(new OnTabSelectedListener(viewPager));
     }
 
 }
