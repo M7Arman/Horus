@@ -7,6 +7,7 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 
 /**
  * Created by arman on 4/30/16.
@@ -20,5 +21,5 @@ public interface TripService {
     Call<List<CardItem>> getAllTrips();
 
     @GET("/myapp/trips/{tripId}")
-    Call<TripDetail> getTrip(String tripId);
+    Call<TripDetail> getTrip(@Path("tripId") String tripId);
 }
