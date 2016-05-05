@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,12 +14,19 @@ import com.arman.horus.adapters.CardItemsAdapter;
 import com.arman.horus.listeners.OnPlaceCardClickListener;
 import com.arman.horus.listeners.OnTripCardClickListener;
 import com.arman.horus.models.CardItem;
-import com.arman.horus.providers.ContentProvider;
+import com.arman.horus.services.PlaceService;
+import com.arman.horus.services.ServiceGenerator;
+import com.arman.horus.services.TripService;
 
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class BoardTabFragment extends Fragment {
 
+    private static final String LOG_TAG = BoardTabFragment.class.getName() + " ->> ";
     private View mView;
 
     @Override
@@ -30,31 +38,57 @@ public class BoardTabFragment extends Fragment {
     }
 
     private void addPlacesListToBoard() {
-        RecyclerView placesRecyclerView = (RecyclerView) mView.findViewById(R.id.places);
+        final RecyclerView placesRecyclerView = (RecyclerView) mView.findViewById(R.id.places);
         placesRecyclerView.setHasFixedSize(true);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
 
         placesRecyclerView.setLayoutManager(layoutManager);
-        //TODO: get popular places instead of dummy
-        List<CardItem> cardItems = ContentProvider.dummyPlaces();
-        RecyclerView.Adapter cardsAdapter = new CardItemsAdapter(cardItems, new OnPlaceCardClickListener(getContext()));
-        placesRecyclerView.setAdapter(cardsAdapter);
+        PlaceService placeService = ServiceGenerator.createService(PlaceService.class);
+        Call<List<CardItem>> call = placeService.getPopularPlaces();
+        call.enqueue(new Callback<List<CardItem>>() {
+            @Override
+            public void onResponse(Call<List<CardItem>> call, Response<List<CardItem>> response) {
+                if (response.isSuccessful()) {
+                    List<CardItem> cardItems = response.body();
+                    RecyclerView.Adapter cardsAdapter = new CardItemsAdapter(cardItems, new OnPlaceCardClickListener(getContext()));
+                    placesRecyclerView.setAdapter(cardsAdapter);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<CardItem>> call, Throwable t) {
+                Log.d(LOG_TAG, "Failure:", t);
+            }
+        });
     }
 
     private void addTripsListToBoard() {
-        RecyclerView tripsRecyclerView = (RecyclerView) mView.findViewById(R.id.trips);
+        final RecyclerView tripsRecyclerView = (RecyclerView) mView.findViewById(R.id.trips);
         tripsRecyclerView.setHasFixedSize(true);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
 
         tripsRecyclerView.setLayoutManager(layoutManager);
-        //TODO: get popular trips instead of dummy
-        List<CardItem> cardItems = ContentProvider.dummyTrips();
-        RecyclerView.Adapter cardsAdapter = new CardItemsAdapter(cardItems, new OnTripCardClickListener(getContext()));
-        tripsRecyclerView.setAdapter(cardsAdapter);
+        TripService tripService = ServiceGenerator.createService(TripService.class);
+        Call<List<CardItem>> call = tripService.getPopularTrips();
+        call.enqueue(new Callback<List<CardItem>>() {
+            @Override
+            public void onResponse(Call<List<CardItem>> call, Response<List<CardItem>> response) {
+                if (response.isSuccessful()) {
+                    List<CardItem> cardItems = response.body();
+                    RecyclerView.Adapter cardsAdapter = new CardItemsAdapter(cardItems, new OnTripCardClickListener(getContext()));
+                    tripsRecyclerView.setAdapter(cardsAdapter);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<CardItem>> call, Throwable t) {
+                Log.d(LOG_TAG, "Failure:", t);
+            }
+        });
     }
 
 }

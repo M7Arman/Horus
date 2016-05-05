@@ -6,11 +6,11 @@ package com.arman.horus.models;
 public class CardItem {
 
     private String title = "No Title";
-    private int image;
+    private String image;
     private int icon;
     private String id;
 
-    public CardItem(String title, int image, int icon, String id) {
+    public CardItem(String title, String image, int icon, String id) {
         this.title = title;
         this.image = image;
         this.icon = icon;
@@ -25,11 +25,11 @@ public class CardItem {
         this.title = title;
     }
 
-    public int getImage() {
+    public String getImage() {
         return image;
     }
 
-    public void setImage(int image) {
+    public void setImage(String image) {
         this.image = image;
     }
 

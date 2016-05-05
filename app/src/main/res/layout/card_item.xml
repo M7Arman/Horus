@@ -28,6 +28,7 @@
 
         <ImageView
             android:id="@+id/card_image"
+            android:src="@drawable/image_loading"
             style="@style/card_item_image" />
 
         <TextView

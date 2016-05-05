@@ -12,7 +12,7 @@ import com.arman.horus.providers.ContentProvider;
 
 public class PlaceDetailActivity extends AppCompatActivity {
 
-    public static final String ID = "place.id";
+    public static final String ID = "com.arman.horus.activities.ID";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +22,6 @@ public class PlaceDetailActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        System.out.println("ID = " + getIntent().getStringExtra(ID));
         String id = getIntent().getStringExtra(ID);
         showPlaceDetail(id);
     }

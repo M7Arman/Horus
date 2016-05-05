@@ -71,7 +71,6 @@
         <item name="android:layout_height">@dimen/card_item_height</item>
         <item name="android:contentDescription">@string/card_content_description</item>
         <item name="android:scaleType">centerCrop</item>
-        <item name="android:src">@drawable/trip</item>
     </style>
 
     <style name="card_item_label">

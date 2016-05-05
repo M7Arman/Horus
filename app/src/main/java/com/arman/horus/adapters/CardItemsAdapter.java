@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.arman.horus.R;
 import com.arman.horus.models.CardItem;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -47,7 +48,11 @@ public class CardItemsAdapter extends RecyclerView.Adapter<CardItemsAdapter.View
         });
         // Set item views based on the data model
         holder.titleView.setText(card.getTitle());
-        holder.imageView.setImageResource(card.getImage());
+        Picasso.with(holder.imageView.getContext())
+                .load(card.getImage())
+                .placeholder(R.drawable.image_loading)
+                .error(R.drawable.oops)
+                .into(holder.imageView);
         holder.iconView.setImageResource(card.getIcon());
     }
 
