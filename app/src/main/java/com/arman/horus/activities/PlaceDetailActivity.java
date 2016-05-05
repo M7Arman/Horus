@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.arman.horus.R;
 import com.arman.horus.models.PlaceDetail;
 import com.arman.horus.providers.ContentProvider;
+import com.squareup.picasso.Picasso;
 
 public class PlaceDetailActivity extends AppCompatActivity {
 
@@ -35,12 +36,15 @@ public class PlaceDetailActivity extends AppCompatActivity {
 
         // set image
         ImageView imageView = (ImageView) findViewById(R.id.place_detail_image);
-        System.out.println("imageView: " + imageView);
-        imageView.setImageResource(placeDetail.images);
+        Picasso.with(imageView.getContext())
+                .load(placeDetail.images[0])
+                .placeholder(R.drawable.image_loading)
+                .error(R.drawable.oops)
+                .into(imageView);
 
         // set address
         TextView fromAddressView = (TextView) findViewById(R.id.place_detail_address);
-        fromAddressView.setText(placeDetail.address.getDisplayName());
+        fromAddressView.setText(placeDetail.address.getDisplay_name());
 
         // set description
         TextView descriptionView = (TextView) findViewById(R.id.place_detail_description);

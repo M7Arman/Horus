@@ -4,19 +4,19 @@ package com.arman.horus.models;
  * Created by arman on 4/28/16.
  */
 public class Address {
-    private String displayName;
+    private String display_name;
     private double[] coord;
 
-    public Address(String displayName) {
-        this.displayName = displayName;
+    public Address(String display_name) {
+        this.display_name = display_name;
     }
 
-    public String getDisplayName() {
-        return displayName;
+    public String getDisplay_name() {
+        return display_name;
     }
 
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
+    public void setDisplay_name(String display_name) {
+        this.display_name = display_name;
     }
 
     public double[] getCoord() {

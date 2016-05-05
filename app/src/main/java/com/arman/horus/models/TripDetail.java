@@ -5,7 +5,7 @@ package com.arman.horus.models;
  */
 public class TripDetail {
 
-    public int images;
+    public String[] images;
     public String title;
     public String description;
     public String startDate;
@@ -13,7 +13,7 @@ public class TripDetail {
     public Address target;
     public String id;
 
-    public TripDetail(int images, String title, String description, String startDate, Address from, Address to, String id) {
+    public TripDetail(String[] images, String title, String description, String startDate, Address from, Address to, String id) {
         this.images = images;
         this.title = title;
         this.description = description;

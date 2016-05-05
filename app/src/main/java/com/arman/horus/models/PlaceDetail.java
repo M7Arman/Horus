@@ -5,13 +5,13 @@ package com.arman.horus.models;
  */
 public class PlaceDetail {
 
-    public int images;
+    public String[] images;
     public String title;
     public String description;
     public Address address;
     public String id;
 
-    public PlaceDetail(int images, String title, String description, Address address, String id) {
+    public PlaceDetail(String[] images, String title, String description, Address address, String id) {
         this.images = images;
         this.title = title;
         this.description = description;
