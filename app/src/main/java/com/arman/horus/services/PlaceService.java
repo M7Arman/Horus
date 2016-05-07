@@ -7,6 +7,7 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 
 /**
  * Created by arman on 4/30/16.
@@ -20,5 +21,5 @@ public interface PlaceService {
     Call<List<CardItem>> getAllPlaces();
 
     @GET("/myapp/places/{placeId}")
-    Call<PlaceDetail> getPlaces(String placeId);
+    Call<PlaceDetail> getPlace(@Path("placeId") String placeId);
 }
