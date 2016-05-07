@@ -1,6 +1,5 @@
 package com.arman.horus.providers;
 
-import com.arman.horus.R;
 import com.arman.horus.models.Address;
 import com.arman.horus.models.CardItem;
 import com.arman.horus.models.PlaceDetail;
@@ -74,7 +73,7 @@ public class ContentProvider {
                 "Արևմտյան կիսագնդում հայերեն են խոսում ԱՄՆ-ում, Կանադայում, Լատինական Ամերիկայում (Ուրուգվայ, Արգենտինա, Բրազիլիա)։ Հայկական համայնքներ կան նաև Աֆրիկայում, Ավստրալիայում և այլուր։";
         String dummyTitle = "Trip target Maymekh";
         Address dummyAddress = new Address("Mt Maymekh");
-        return new PlaceDetail(R.drawable.trip1, dummyTitle, dummyDescription, dummyAddress, "place_1");
+        return new PlaceDetail(new String[]{"trip1"}, dummyTitle, dummyDescription, dummyAddress, "place_1");
     }
 
 
@@ -87,6 +86,6 @@ public class ContentProvider {
         String dummyStartDate = "Monday, September 13 - 08:00";
         Address dummyFromAddress = new Address("Tigran Mets 15/34");
         Address dummyTarget = new Address("Mt Maymekh");
-        return new TripDetail(R.drawable.trip1, dummyTitle, dummyDescription, dummyStartDate, dummyFromAddress, dummyTarget, "trip_1");
+        return new TripDetail(new String[]{"trip1"}, dummyTitle, dummyDescription, dummyStartDate, dummyFromAddress, dummyTarget, "trip_1");
     }
 }

@@ -1,5 +1,7 @@
 package com.arman.horus.models;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by arman on 4/2/16.
  */
@@ -8,6 +10,7 @@ public class TripDetail {
     public String[] images;
     public String title;
     public String description;
+    @SerializedName(value="start_date")
     public String startDate;
     public Address from;
     public Address target;
