@@ -12,55 +12,58 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:weightSum="1">
 
+        <!--android:src="@drawable/trip1"-->
         <ImageView
             android:id="@+id/trip_detail_image"
             android:layout_width="match_parent"
             android:layout_height="@dimen/item_detail_image_height"
-            android:src="@drawable/trip1"
             android:scaleType="centerCrop" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <!--android:text="Mt Maymekh, Armenia"-->
             <TextView
                 android:id="@+id/trip_detail_from"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:text="Mt Maymekh, Armenia"
                 android:layout_marginRight="1dp"
                 style="@style/item_detail_section"
+                android:drawableStart="@drawable/ic_start"
                 android:drawableLeft="@drawable/ic_start" />
 
+            <!--android:text="Mt Maymekh, Armenia"-->
             <TextView
                 android:id="@+id/trip_detail_target"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:text="Mt Maymekh, Armenia"
                 style="@style/item_detail_section"
+                android:drawableStart="@drawable/ic_target"
                 android:drawableLeft="@drawable/ic_target" />
 
         </LinearLayout>
 
+        <!--android:text="Monday, September 13 - 08:00"-->
         <TextView
             android:id="@+id/trip_detail_date"
             android:layout_width="match_parent"
-            android:text="Monday, September 13 - 08:00"
             android:layout_marginTop="1dp"
             style="@style/item_detail_section"
             android:drawableLeft="@drawable/ic_calendar" />
 
+        <!--android:text="@string/card_content_description"-->
         <TextView
             android:id="@+id/trip_detail_description"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginTop="1dp"
             style="@style/item_detail_section"
             android:typeface="serif"
-            android:padding="5dp"
-            android:text="@string/card_content_description"/>
+            android:padding="5dp" />
 
     </LinearLayout>
 
