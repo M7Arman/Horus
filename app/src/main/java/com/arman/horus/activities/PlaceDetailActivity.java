@@ -62,7 +62,7 @@ public class PlaceDetailActivity extends AppCompatActivity {
 
         @Override
         public void onFailure(Call<PlaceDetail> call, Throwable t) {
-            Log.d(LOG_TAG, "Failure:", t);
+            Log.e(LOG_TAG, "Failed to connect to " + call.request().url().toString());
         }
     }
 

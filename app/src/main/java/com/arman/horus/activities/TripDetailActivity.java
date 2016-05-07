@@ -63,7 +63,7 @@ public class TripDetailActivity extends AppCompatActivity {
 
         @Override
         public void onFailure(Call<TripDetail> call, Throwable t) {
-            Log.d(LOG_TAG, "Failure:", t);
+            Log.d(LOG_TAG, "Failed to connect to " + call.request().url().toString());
         }
     }
 

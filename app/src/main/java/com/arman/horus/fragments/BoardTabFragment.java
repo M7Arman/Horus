@@ -59,7 +59,7 @@ public class BoardTabFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<CardItem>> call, Throwable t) {
-                Log.d(LOG_TAG, "Failure:", t);
+                Log.e(LOG_TAG, "Failed to connect to " + call.request().url().toString());
             }
         });
     }
@@ -86,7 +86,7 @@ public class BoardTabFragment extends Fragment {
 
             @Override
             public void onFailure(Call<List<CardItem>> call, Throwable t) {
-                Log.d(LOG_TAG, "Failure:", t);
+                Log.e(LOG_TAG, "Failed to connect to " + call.request().url().toString());
             }
         });
     }
