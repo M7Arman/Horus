@@ -36,6 +36,11 @@ public class PlaceDetailActivity extends AppCompatActivity {
         getPlaceDetail(id);
     }
 
+    /**
+     * Gets place detail by the specified ID and shows it
+     *
+     * @param id place detail ID
+     */
     private void getPlaceDetail(String id) {
         PlaceService placeService = ServiceGenerator.createService(PlaceService.class);
         Call<PlaceDetail> call = placeService.getPlace(id);
@@ -61,6 +66,11 @@ public class PlaceDetailActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Renders place detail UI
+     *
+     * @param pDetail
+     */
     public void showPlaceDetail(PlaceDetail pDetail) {
         // set title
         getSupportActionBar().setTitle(pDetail.title);
