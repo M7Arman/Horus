@@ -1,19 +1,28 @@
 package com.arman.horus.activities;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.arman.horus.R;
 import com.arman.horus.models.PlaceDetail;
-import com.arman.horus.providers.ContentProvider;
+import com.arman.horus.services.PlaceService;
+import com.arman.horus.services.ServiceGenerator;
 import com.squareup.picasso.Picasso;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class PlaceDetailActivity extends AppCompatActivity {
 
-    public static final String ID = "com.arman.horus.activities.ID";
+    public static final String ID = "com.arman.horus.activities.PlaceDetailActivity.ID";
+    private static final String LOG_TAG = PlaceDetailActivity.class.getName();
+    private ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,31 +33,54 @@ public class PlaceDetailActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         String id = getIntent().getStringExtra(ID);
-        showPlaceDetail(id);
+        getPlaceDetail(id);
     }
 
-    private void showPlaceDetail(String id) {
-        //TODO: get the place detail using the given ID
-        PlaceDetail placeDetail = ContentProvider.dummyPlaceDetail();
+    private void getPlaceDetail(String id) {
+        PlaceService placeService = ServiceGenerator.createService(PlaceService.class);
+        Call<PlaceDetail> call = placeService.getPlace(id);
+        call.enqueue(new PlaceDetailCallback());
+        dialog = ProgressDialog.show(this, "", "Loading. Please wait...", true);
+    }
 
+    public class PlaceDetailCallback implements Callback<PlaceDetail> {
+        @Override
+        public void onResponse(Call<PlaceDetail> call, Response<PlaceDetail> response) {
+            if (!response.isSuccessful()) {
+                Log.d(LOG_TAG, "Request wasn't successful!");
+                dialog.dismiss();
+                //TODO: Implement this case
+                return;
+            }
+            showPlaceDetail(response.body());
+        }
+
+        @Override
+        public void onFailure(Call<PlaceDetail> call, Throwable t) {
+            Log.d(LOG_TAG, "Failure:", t);
+        }
+    }
+
+    public void showPlaceDetail(PlaceDetail pDetail) {
         // set title
-        getSupportActionBar().setTitle(placeDetail.title);
+        getSupportActionBar().setTitle(pDetail.title);
 
         // set image
         ImageView imageView = (ImageView) findViewById(R.id.place_detail_image);
         Picasso.with(imageView.getContext())
-                .load(placeDetail.images[0])
+                .load(pDetail.images[0])
                 .placeholder(R.drawable.image_loading)
                 .error(R.drawable.oops)
                 .into(imageView);
 
         // set address
         TextView fromAddressView = (TextView) findViewById(R.id.place_detail_address);
-        fromAddressView.setText(placeDetail.address.getDisplay_name());
+        fromAddressView.setText(pDetail.address.getDisplay_name());
 
         // set description
         TextView descriptionView = (TextView) findViewById(R.id.place_detail_description);
-        descriptionView.setText(placeDetail.description);
+        descriptionView.setText(pDetail.description);
+        dialog.dismiss();
     }
 
 }
