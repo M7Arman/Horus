@@ -98,19 +98,17 @@ public class AddPlaceActivity extends AppCompatActivity {
     private void pickPlace() {
         PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
         try {
-            System.out.println("before starting act...");
             startActivityForResult(builder.build(this), PLACE_PICKER_REQUEST);
         } catch (GooglePlayServicesRepairableException | GooglePlayServicesNotAvailableException e) {
             e.printStackTrace();
             Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();
         }
-        System.out.println("after starting act...");
     }
 
     private void selectImage() {
-        List<String> items = new LinkedList<>(Arrays.asList("Նկարել", "Ընտրել ֆայլերից", "Գնալ հետ"));
-
-        if (!isDeviceSupportCamera()) {
+        final List<String> items = new LinkedList<>(Arrays.asList("Նկարել", "Ընտրել ֆայլերից", "Գնալ հետ"));
+        final boolean hasCamera = isDeviceSupportCamera();
+        if (!hasCamera) {
             items.remove(0);
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(AddPlaceActivity.this);
@@ -118,10 +116,10 @@ public class AddPlaceActivity extends AppCompatActivity {
         builder.setItems(items.toArray(new CharSequence[items.size()]), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int item) {
-                if (item == 0) {
+                if (hasCamera && item == 0) {
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     startActivityForResult(intent, REQUEST_CAMERA);
-                } else if (item == 1) {
+                } else if ((hasCamera && item == 1) || (!hasCamera && item == 0)) {
                     Intent intent = new Intent(
                             Intent.ACTION_PICK,
                             android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -129,7 +127,7 @@ public class AddPlaceActivity extends AppCompatActivity {
                     startActivityForResult(
                             Intent.createChooser(intent, "Ընտրել նկար"),
                             SELECT_FILE);
-                } else if (item == 2) {
+                } else {
                     dialog.dismiss();
                 }
             }
@@ -139,8 +137,6 @@ public class AddPlaceActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        System.out.println("requestCode = " + requestCode);
-        System.out.println("resultCode = " + resultCode);
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode != RESULT_OK) {
             Toast.makeText(this, "Oops...", Toast.LENGTH_LONG).show();
@@ -153,12 +149,9 @@ public class AddPlaceActivity extends AppCompatActivity {
     }
 
     private void placePickerProcess(Intent data) {
-        System.out.println("AddPlaceActivity.placePickerProcess");
         Place place = PlacePicker.getPlace(this, data);
-        System.out.println("AddPlaceActivity.placePickerProcess...");
         String toastMsg = String.format("Place: %s, Coords: %s", place.getName(), place.getLatLng());
         Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
-        System.out.println("AddPlaceActivity.placePickerProcess......");
     }
 
     private void addImageProcess(int requestCode, Intent data) {

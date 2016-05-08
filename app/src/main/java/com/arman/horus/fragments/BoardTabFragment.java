@@ -21,6 +21,7 @@ import com.arman.horus.services.PlaceService;
 import com.arman.horus.services.ServiceGenerator;
 import com.arman.horus.services.TripService;
 import com.getbase.floatingactionbutton.FloatingActionButton;
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 
 import java.util.List;
 
@@ -38,15 +39,17 @@ public class BoardTabFragment extends Fragment {
         mView = inflater.inflate(R.layout.tab_board, container, false);
         addPlacesListToBoard();
         addTripsListToBoard();
-        bindListenersToFAB();
+        bindListenersToFABs();
         return mView;
     }
 
-    private void bindListenersToFAB() {
+    private void bindListenersToFABs() {
+        final FloatingActionsMenu fam = (FloatingActionsMenu) mView.findViewById(R.id.add_fab);
         FloatingActionButton fabPlace = (FloatingActionButton) mView.findViewById(R.id.add_place_btn);
         fabPlace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                fam.collapse();
                 startAddItemActivity(AddPlaceActivity.class);
             }
         });
@@ -54,6 +57,7 @@ public class BoardTabFragment extends Fragment {
         fabTrip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                fam.expand();
                 startAddItemActivity(AddTripActivity.class);
             }
         });

@@ -1,6 +1,6 @@
 package com.arman.horus.activities;
 
-import android.app.ProgressDialog;
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -14,6 +14,7 @@ import com.arman.horus.services.PlaceService;
 import com.arman.horus.services.ServiceGenerator;
 import com.squareup.picasso.Picasso;
 
+import dmax.dialog.SpotsDialog;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -22,7 +23,7 @@ public class PlaceDetailActivity extends AppCompatActivity {
 
     public static final String ID = "com.arman.horus.activities.PlaceDetailActivity.ID";
     private static final String LOG_TAG = PlaceDetailActivity.class.getName();
-    private ProgressDialog dialog;
+    private AlertDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +32,7 @@ public class PlaceDetailActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        dialog = new SpotsDialog(this);
 
         String id = getIntent().getStringExtra(ID);
         getPlaceDetail(id);
@@ -45,7 +47,7 @@ public class PlaceDetailActivity extends AppCompatActivity {
         PlaceService placeService = ServiceGenerator.createService(PlaceService.class);
         Call<PlaceDetail> call = placeService.getPlace(id);
         call.enqueue(new PlaceDetailCallback());
-        dialog = ProgressDialog.show(this, "", "Loading. Please wait...", true);
+        dialog.show();
     }
 
     public class PlaceDetailCallback implements Callback<PlaceDetail> {
@@ -58,6 +60,7 @@ public class PlaceDetailActivity extends AppCompatActivity {
                 return;
             }
             showPlaceDetail(response.body());
+            dialog.dismiss();
         }
 
         @Override
@@ -90,7 +93,6 @@ public class PlaceDetailActivity extends AppCompatActivity {
         // set description
         TextView descriptionView = (TextView) findViewById(R.id.place_detail_description);
         descriptionView.setText(pDetail.description);
-        dialog.dismiss();
     }
 
 }
