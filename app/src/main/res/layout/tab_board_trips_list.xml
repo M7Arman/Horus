@@ -11,6 +11,6 @@ style="@style/board_list_section">
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <Button style="@style/more_button" />
+    <!--<Button style="@style/more_button" />-->
 
 </LinearLayout>

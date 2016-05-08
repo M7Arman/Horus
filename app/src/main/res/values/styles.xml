@@ -32,7 +32,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:text">@string/more_button_text</item>
         <item name="android:textColor">@android:color/white</item>
-        <item name="android:background">@color/colorButton</item>
+        <item name="android:background">@color/colorBtn</item>
         <item name="android:layout_gravity">end</item>
         <item name="android:layout_marginRight">@dimen/more_button_margin_right</item>
         <item name="android:layout_marginTop">@dimen/more_button_margin_top</item>
@@ -105,6 +105,11 @@
         <item name="android:layout_height">@dimen/item_detail_section_height</item>
         <item name="android:textSize">@dimen/item_detail_section_text_size</item>
         <item name="android:drawablePadding">3dp</item>
+    </style>
+
+    <style name="menu_labels_style">
+        <item name="android:background">@drawable/fab_label_background</item>
+        <item name="android:textColor">@android:color/white</item>
     </style>
 
 </resources>

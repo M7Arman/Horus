@@ -2,7 +2,11 @@
 <resources>
     <color name="colorPrimary">#00695C</color>
     <color name="colorPrimaryDark">#004D40</color>
-    <color name="colorAccent">#95d6cb</color>
-    <color name="colorButton">#00897B</color>
+    <color name="colorAccent">#1DE9B6</color>
+    <color name="colorAccentDark">#00BFA5</color>
+    <color name="colorBtn">#00897B</color>
     <color name="colorBg">#d7d7d7</color>
+    <color name="colorFAB">#A7FFEB</color>
+    <color name="colorFABPressed">#8ddecb</color>
+    <color name="black_semi_transparent">#B2000000</color>
 </resources>

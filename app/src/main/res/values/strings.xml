@@ -10,4 +10,6 @@
     <string name="card_label">Explore</string>
     <string name="card_content_description">item card content</string>
     <string name="title_activity_item_detail2">Item detail page</string>
+    <string name="float_btn_trip_label">Trip</string>
+    <string name="float_btn_place_label">Place</string>
 </resources>
