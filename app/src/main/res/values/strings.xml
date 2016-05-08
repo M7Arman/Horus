@@ -12,4 +12,12 @@
     <string name="title_activity_item_detail2">Item detail page</string>
     <string name="float_btn_trip_label">Trip</string>
     <string name="float_btn_place_label">Place</string>
+    <string name="title_activity_add_place">Create a new place</string>
+    <string name="title_activity_add_trip">Create a new trip</string>
+    <string name="create_place_btn">SAVE</string>
+    <string name="place_description_hint">Place Description</string>
+    <string name="place_name_hint">Place Name</string>
+    <string name="err_msg_place_name">Enter place name</string>
+    <string name="err_msg_place_description">Enter place description</string>
+    <string name="add_image_btn">Add image</string>
 </resources>

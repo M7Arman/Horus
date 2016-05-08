@@ -50,7 +50,7 @@ public class CardItemsAdapter extends RecyclerView.Adapter<CardItemsAdapter.View
         holder.titleView.setText(card.getTitle());
         Picasso.with(holder.imageView.getContext())
                 .load(card.getImage())
-                .placeholder(R.drawable.image_loading)
+                .placeholder(R.drawable.no_image)
                 .error(R.drawable.oops)
                 .into(holder.imageView);
         holder.iconView.setImageResource(card.getIcon());

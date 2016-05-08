@@ -34,6 +34,7 @@
         fab:fab_labelStyle="@style/menu_labels_style">
 
         <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/add_place_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             fab:fab_colorNormal="@color/colorFAB"
@@ -42,6 +43,7 @@
             fab:fab_title="@string/float_btn_place_label" />
 
         <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/add_trip_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             fab:fab_colorNormal="@color/colorFAB"

@@ -1,5 +1,6 @@
 package com.arman.horus.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.arman.horus.R;
+import com.arman.horus.activities.AddPlaceActivity;
+import com.arman.horus.activities.AddTripActivity;
 import com.arman.horus.adapters.CardItemsAdapter;
 import com.arman.horus.listeners.OnPlaceCardClickListener;
 import com.arman.horus.listeners.OnTripCardClickListener;
@@ -17,6 +20,7 @@ import com.arman.horus.models.CardItem;
 import com.arman.horus.services.PlaceService;
 import com.arman.horus.services.ServiceGenerator;
 import com.arman.horus.services.TripService;
+import com.getbase.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
@@ -34,7 +38,30 @@ public class BoardTabFragment extends Fragment {
         mView = inflater.inflate(R.layout.tab_board, container, false);
         addPlacesListToBoard();
         addTripsListToBoard();
+        bindListenersToFAB();
         return mView;
+    }
+
+    private void bindListenersToFAB() {
+        FloatingActionButton fabPlace = (FloatingActionButton) mView.findViewById(R.id.add_place_btn);
+        fabPlace.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startAddItemActivity(AddPlaceActivity.class);
+            }
+        });
+        FloatingActionButton fabTrip = (FloatingActionButton) mView.findViewById(R.id.add_trip_btn);
+        fabTrip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startAddItemActivity(AddTripActivity.class);
+            }
+        });
+    }
+
+    private void startAddItemActivity(Class activityClass) {
+        Intent intent = new Intent(this.getContext(), activityClass);
+        startActivity(intent);
     }
 
     private void addPlacesListToBoard() {

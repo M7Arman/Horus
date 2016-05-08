@@ -22,4 +22,5 @@
     <dimen name="item_detail_section_height">70dp</dimen>
     <dimen name="item_detail_section_text_size">16sp</dimen>
     <dimen name="fam_margin_right">16dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
 </resources>
