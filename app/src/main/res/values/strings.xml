@@ -18,6 +18,8 @@
     <string name="place_description_hint">Place Description</string>
     <string name="place_name_hint">Place Name</string>
     <string name="err_msg_place_name">Enter place name</string>
-    <string name="err_msg_place_description">Enter place description</string>
+    <string name="err_msg_place_address">Enter place address</string>
     <string name="add_image_btn">Add image</string>
+    <string name="place_picker_btn">Pick place on Map</string>
+    <string name="place_address_hint">Place Address</string>
 </resources>

@@ -11,6 +11,9 @@ public class PlaceDetail {
     public Address address;
     public String id;
 
+    public PlaceDetail() {
+    }
+
     public PlaceDetail(String[] images, String title, String description, Address address, String id) {
         this.images = images;
         this.title = title;

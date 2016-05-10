@@ -1,22 +1,34 @@
 package com.arman.horus.models;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by arman on 4/28/16.
  */
 public class Address {
-    private String display_name;
+
+    @SerializedName(value = "display_name")
+    private String displayName;
     private double[] coord;
 
-    public Address(String display_name) {
-        this.display_name = display_name;
+    public Address(String displayName) {
+        this.displayName = displayName;
     }
 
-    public String getDisplay_name() {
-        return display_name;
+    public Address() {
     }
 
-    public void setDisplay_name(String display_name) {
-        this.display_name = display_name;
+    public Address(double[] coords, String displayName) {
+        this.coord = coords;
+        this.displayName = displayName;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
     }
 
     public double[] getCoord() {

@@ -2,11 +2,11 @@ package com.arman.horus.activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -26,11 +26,18 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.arman.horus.R;
+import com.arman.horus.models.Address;
+import com.arman.horus.models.PlaceDetail;
+import com.arman.horus.utils.H;
+import com.cloudinary.Cloudinary;
+import com.cloudinary.android.Utils;
+import com.cloudinary.utils.ObjectUtils;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -40,6 +47,8 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+import dmax.dialog.SpotsDialog;
+
 public class AddPlaceActivity extends AppCompatActivity {
 
     private static final int REQUEST_CAMERA = 1;
@@ -48,10 +57,15 @@ public class AddPlaceActivity extends AppCompatActivity {
 
     private EditText placeNameView;
     private EditText placeDescView;
+    private EditText placeAddressView;
     private TextInputLayout placeNameLayout;
     private TextInputLayout placeDescLayout;
+    private TextInputLayout placeAddressLayout;
     private LinearLayout addedImagesView;
     private List<Bitmap> images = new ArrayList<>();
+    private PlaceDetail place;
+    private Cloudinary cloudinary;
+    private SpotsDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,18 +74,17 @@ public class AddPlaceActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        dialog = new SpotsDialog(AddPlaceActivity.this);
+        place = new PlaceDetail();
+        cloudinary = new Cloudinary(Utils.cloudinaryUrlFromContext(this));
+        getViews();
+        setListeners();
+    }
 
-        placeNameView = (EditText) findViewById(R.id.place_name_input);
-        placeDescView = (EditText) findViewById(R.id.place_description_input);
-        placeNameLayout = (TextInputLayout) findViewById(R.id.place_name_input_layout);
-        placeDescLayout = (TextInputLayout) findViewById(R.id.place_description_input_layout);
-        addedImagesView = (LinearLayout) findViewById(R.id.added_images);
+    private void setListeners() {
         Button addImgBtn = (Button) findViewById(R.id.add_image_btn);
         Button pickPlaceBtn = (Button) findViewById(R.id.pick_place_btn);
         Button createPlaceBtn = (Button) findViewById(R.id.create_place);
-
-        placeNameView.addTextChangedListener(new PlaceTextWatcher(placeNameView));
-        placeDescView.addTextChangedListener(new PlaceTextWatcher(placeDescView));
 
         createPlaceBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,6 +108,18 @@ public class AddPlaceActivity extends AppCompatActivity {
         });
     }
 
+    private void getViews() {
+        placeNameView = (EditText) findViewById(R.id.place_name_input);
+        placeDescView = (EditText) findViewById(R.id.place_description_input);
+        placeAddressView = (EditText) findViewById(R.id.place_address_input);
+        placeNameLayout = (TextInputLayout) findViewById(R.id.place_name_input_layout);
+        placeAddressLayout = (TextInputLayout) findViewById(R.id.place_address_layout);
+        addedImagesView = (LinearLayout) findViewById(R.id.added_images);
+
+        placeNameView.addTextChangedListener(new PlaceTextWatcher(placeNameView));
+        placeAddressView.addTextChangedListener(new PlaceTextWatcher(placeAddressView));
+    }
+
     private void pickPlace() {
         PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
         try {
@@ -107,7 +132,7 @@ public class AddPlaceActivity extends AppCompatActivity {
 
     private void selectImage() {
         final List<String> items = new LinkedList<>(Arrays.asList("Նկարել", "Ընտրել ֆայլերից", "Գնալ հետ"));
-        final boolean hasCamera = isDeviceSupportCamera();
+        final boolean hasCamera = H.isDeviceSupportCamera(getApplicationContext());
         if (!hasCamera) {
             items.remove(0);
         }
@@ -149,9 +174,17 @@ public class AddPlaceActivity extends AppCompatActivity {
     }
 
     private void placePickerProcess(Intent data) {
-        Place place = PlacePicker.getPlace(this, data);
-        String toastMsg = String.format("Place: %s, Coords: %s", place.getName(), place.getLatLng());
-        Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
+        Place pickedPlace = PlacePicker.getPlace(this, data);
+        String addressText = pickedPlace.getAddress().toString();
+        double[] coords = new double[2];
+        coords[0] = pickedPlace.getLatLng().latitude;
+        coords[1] = pickedPlace.getLatLng().longitude;
+        Address address = new Address();
+        address.setCoord(coords);
+        place.address = address;
+        if (!addressText.isEmpty()) {
+            placeAddressView.setText(addressText);
+        }
     }
 
     private void addImageProcess(int requestCode, Intent data) {
@@ -204,50 +237,44 @@ public class AddPlaceActivity extends AppCompatActivity {
     }
 
     private void submitForm() {
-        if (!validatePlaceName() || !validatePlaceDesc()) {
+        if (!validatePlaceName() || !validatePlaceAddress()) {
             return;
         }
-        Toast.makeText(getApplicationContext(), "Thank You!", Toast.LENGTH_SHORT).show();
-        finish();
+        place.description = placeDescView.getText().toString().trim();
+        AsyncTaskRunner taskRunner = new AsyncTaskRunner();
+        taskRunner.execute(images.toArray(new Bitmap[images.size()]));
+
+        //       Toast.makeText(getApplicationContext(), "Thank You!", Toast.LENGTH_SHORT).show();
+//        finish();
     }
 
     private boolean validatePlaceName() {
-        if (placeNameView.getText().toString().trim().isEmpty()) {
+        String placeName = placeNameView.getText().toString().trim();
+        if (placeName.isEmpty()) {
             placeNameLayout.setError(getString(R.string.err_msg_place_name));
             requestFocus(placeNameView);
             return false;
         }
         placeNameLayout.setErrorEnabled(false);
+        place.title = placeName;
         return true;
     }
 
-    private boolean validatePlaceDesc() {
-        if (placeDescView.getText().toString().trim().isEmpty()) {
-            placeDescLayout.setError(getString(R.string.err_msg_place_description));
-            requestFocus(placeDescView);
+    private boolean validatePlaceAddress() {
+        String placeAddress = placeAddressView.getText().toString().trim();
+        if (placeAddressView.getText().toString().trim().isEmpty()) {
+            placeAddressLayout.setError(getString(R.string.err_msg_place_address));
+            requestFocus(placeAddressView);
             return false;
         }
-        placeDescLayout.setErrorEnabled(false);
+        placeAddressLayout.setErrorEnabled(false);
+        place.address.setDisplayName(placeAddress);
         return true;
     }
 
     private void requestFocus(View view) {
         if (view.requestFocus()) {
             getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-        }
-    }
-
-    /**
-     * Checking device has camera hardware or not
-     */
-    private boolean isDeviceSupportCamera() {
-        if (getApplicationContext().getPackageManager().hasSystemFeature(
-                PackageManager.FEATURE_CAMERA)) {
-            // this device has a camera
-            return true;
-        } else {
-            // no camera on this device
-            return false;
         }
     }
 
@@ -273,11 +300,53 @@ public class AddPlaceActivity extends AppCompatActivity {
                 case R.id.place_name_input:
                     validatePlaceName();
                     break;
-                case R.id.place_description_input:
-                    validatePlaceDesc();
+                case R.id.place_address_input:
+                    validatePlaceAddress();
                     break;
             }
         }
     }
 
+    public class AsyncTaskRunner extends AsyncTask<Bitmap, Void, Void> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            dialog.show();
+        }
+
+        @Override
+        protected Void doInBackground(Bitmap... images) {
+            String[] imagesUrls = new String[images.length];
+            String imageName = place.title.replace(" ", "_") + "_";
+
+            for (int i = 0; i < images.length; ++i) {
+                Bitmap image = images[i];
+                ByteArrayInputStream stream = H.bitmapToInputStream(image);
+                try {
+                    String publicId = imageName + i;
+                    cloudinary.uploader().upload(stream, ObjectUtils.asMap("public_id", publicId));
+                    imagesUrls[i] = cloudinary.url().generate(publicId);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } finally {
+                    try {
+                        stream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+            place.images = imagesUrls;
+            //TODO: post place
+            return null;
+        }
+
+
+        @Override
+        protected void onPostExecute(Void params) {
+            super.onPostExecute(params);
+            dialog.dismiss();
+        }
+    }
 }
