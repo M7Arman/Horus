@@ -20,6 +20,14 @@
     <string name="err_msg_place_name">Enter place name</string>
     <string name="err_msg_place_address">Enter place address</string>
     <string name="add_image_btn">Add image</string>
-    <string name="place_picker_btn">Pick place on Map</string>
+    <string name="place_picker_btn">Pick place</string>
     <string name="place_address_hint">Place Address</string>
+    <string name="trip_title_hint">Trip Title</string>
+    <string name="trip_desc_hint">Trip Description</string>
+    <string name="from_btn">From</string>
+    <string name="to_btn">To</string>
+    <string name="trip_to_hint">Trip Target Address</string>
+    <string name="trip_from_hint">Trip Start Address</string>
+    <string name="time_picker_btn">Pick time</string>
+    <string name="date_picker_btn">Pick Date</string>
 </resources>

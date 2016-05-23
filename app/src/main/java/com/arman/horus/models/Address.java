@@ -1,5 +1,6 @@
 package com.arman.horus.models;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -37,5 +38,9 @@ public class Address {
 
     public void setCoord(double[] coord) {
         this.coord = coord;
+    }
+
+    public LatLng getLatLng() {
+        return new LatLng(coord[0], coord[1]);
     }
 }

@@ -2,6 +2,7 @@ package com.arman.horus.services;
 
 import com.arman.horus.models.CardItem;
 import com.arman.horus.models.TripDetail;
+import com.arman.horus.models.TripLocation;
 
 import java.util.List;
 
@@ -22,4 +23,7 @@ public interface TripService {
 
     @GET("/myapp/trips/{tripId}")
     Call<TripDetail> getTrip(@Path("tripId") String tripId);
+
+    @GET("/myapp/trips/locations")
+    Call<List<TripLocation>> getTripsLocations();
 }

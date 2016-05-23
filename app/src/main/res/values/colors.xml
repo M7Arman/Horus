@@ -9,4 +9,5 @@
     <color name="colorFAB">#A7FFEB</color>
     <color name="colorFABPressed">#8ddecb</color>
     <color name="black_semi_transparent">#B2000000</color>
+    <color name="colorFormBtn">#3a948c</color>
 </resources>

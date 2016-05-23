@@ -14,29 +14,24 @@ import com.arman.horus.fragments.ProfileTabFragment;
  */
 public class TabPagerAdapter extends FragmentPagerAdapter {
 
+    Fragment[] tabFragments = new Fragment[]{
+            new BoardTabFragment(),
+            new MapTabFragment(),
+            new PlansTabFragment(),
+            new ProfileTabFragment(),
+    };
+
     public TabPagerAdapter(FragmentManager fm) {
         super(fm);
     }
 
     @Override
     public Fragment getItem(int position) {
-
-        switch (position) {
-            case 0:
-                return new BoardTabFragment();
-            case 1:
-                return new MapTabFragment();
-            case 2:
-                return new PlansTabFragment();
-            case 3:
-                return new ProfileTabFragment();
-            default:
-                return null;
-        }
+        return tabFragments[position];
     }
 
     @Override
     public int getCount() {
-        return 4;
+        return tabFragments.length;
     }
 }

@@ -28,6 +28,8 @@ import android.widget.Toast;
 import com.arman.horus.R;
 import com.arman.horus.models.Address;
 import com.arman.horus.models.PlaceDetail;
+import com.arman.horus.services.PlaceService;
+import com.arman.horus.services.ServiceGenerator;
 import com.arman.horus.utils.H;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.android.Utils;
@@ -48,6 +50,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 import dmax.dialog.SpotsDialog;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class AddPlaceActivity extends AppCompatActivity {
 
@@ -225,9 +230,6 @@ public class AddPlaceActivity extends AppCompatActivity {
             options.inJustDecodeBounds = false;
             image = BitmapFactory.decodeFile(selectedImagePath, options);
         }
-        if (images.isEmpty()) {
-            addedImagesView.removeViewAt(0);
-        }
         ImageView imgView = new ImageView(this);
         imgView.setPadding(5, 5, 5, 5);
         imgView.setScaleType(ImageView.ScaleType.FIT_START);
@@ -322,22 +324,37 @@ public class AddPlaceActivity extends AppCompatActivity {
 
             for (int i = 0; i < images.length; ++i) {
                 Bitmap image = images[i];
-                ByteArrayInputStream stream = H.bitmapToInputStream(image);
+                ByteArrayInputStream imageStream = H.bitmapToInputStream(image);
                 try {
                     String publicId = imageName + i;
-                    cloudinary.uploader().upload(stream, ObjectUtils.asMap("public_id", publicId));
+                    cloudinary.uploader().upload(imageStream, ObjectUtils.asMap("public_id", publicId));
                     imagesUrls[i] = cloudinary.url().generate(publicId);
                 } catch (IOException e) {
                     e.printStackTrace();
                 } finally {
                     try {
-                        stream.close();
+                        imageStream.close();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
             }
             place.images = imagesUrls;
+            PlaceService placeService = ServiceGenerator.createService(PlaceService.class);
+            Call<Object> call = placeService.postPlace(place);
+            System.out.println("This is a(n) " + call.getClass().getSimpleName());
+            call.enqueue(new Callback<Object>() {
+                @Override
+                public void onResponse(Call<Object> call, Response<Object> response) {
+                    System.out.println("response.isSuccessful() = " + response.isSuccessful());
+                    System.out.println("response.body().toString() = " + response.body().toString());
+                }
+
+                @Override
+                public void onFailure(Call<Object> call, Throwable t) {
+
+                }
+            });
             //TODO: post place
             return null;
         }

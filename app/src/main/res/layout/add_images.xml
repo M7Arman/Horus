@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginTop="10dp">
+
+    <HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/horizontal_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:id="@+id/added_images"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+        </LinearLayout>
+
+    </HorizontalScrollView>
+
+    <Button
+        android:id="@+id/add_image_btn"
+        android:layout_width="wrap_content"
+        android:drawableLeft="@drawable/ic_add_image"
+        android:drawablePadding="10dp"
+        android:drawableStart="@drawable/ic_add_image"
+        android:layout_height="wrap_content"
+        android:text="@string/add_image_btn"
+        style="@style/form_btn" />
+</LinearLayout>
