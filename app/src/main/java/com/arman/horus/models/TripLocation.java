@@ -5,6 +5,7 @@ package com.arman.horus.models;
  */
 public class TripLocation {
 
+    public String id;
     public Address target;
     public String title;
 }

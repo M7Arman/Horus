@@ -5,6 +5,7 @@ package com.arman.horus.models;
  */
 public class PlaceLocation {
 
+    public String id;
     public Address address;
     public String title;
 }
