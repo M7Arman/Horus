@@ -17,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -59,6 +60,7 @@ public class AddPlaceActivity extends AppCompatActivity {
     private static final int REQUEST_CAMERA = 1;
     private static final int SELECT_FILE = 2;
     private static final int PLACE_PICKER_REQUEST = 3;
+    private static final String LOG_TAG = AddPlaceActivity.class.getName();
 
     private EditText placeNameView;
     private EditText placeDescView;
@@ -136,13 +138,13 @@ public class AddPlaceActivity extends AppCompatActivity {
     }
 
     private void selectImage() {
-        final List<String> items = new LinkedList<>(Arrays.asList("Նկարել", "Ընտրել ֆայլերից", "Գնալ հետ"));
+        final List<String> items = new LinkedList<>(Arrays.asList("Make a photo", "Choose from files", "Cancel"));
         final boolean hasCamera = H.isDeviceSupportCamera(getApplicationContext());
         if (!hasCamera) {
             items.remove(0);
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(AddPlaceActivity.this);
-        builder.setTitle("Ավելացնել նկար");
+        builder.setTitle("Add a picture");
         builder.setItems(items.toArray(new CharSequence[items.size()]), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int item) {
@@ -245,9 +247,6 @@ public class AddPlaceActivity extends AppCompatActivity {
         place.description = placeDescView.getText().toString().trim();
         AsyncTaskRunner taskRunner = new AsyncTaskRunner();
         taskRunner.execute(images.toArray(new Bitmap[images.size()]));
-
-        //       Toast.makeText(getApplicationContext(), "Thank You!", Toast.LENGTH_SHORT).show();
-//        finish();
     }
 
     private boolean validatePlaceName() {
@@ -342,20 +341,22 @@ public class AddPlaceActivity extends AppCompatActivity {
             place.images = imagesUrls;
             PlaceService placeService = ServiceGenerator.createService(PlaceService.class);
             Call<Object> call = placeService.postPlace(place);
-            System.out.println("This is a(n) " + call.getClass().getSimpleName());
             call.enqueue(new Callback<Object>() {
                 @Override
                 public void onResponse(Call<Object> call, Response<Object> response) {
-                    System.out.println("response.isSuccessful() = " + response.isSuccessful());
-                    System.out.println("response.body().toString() = " + response.body().toString());
+                    if (response.isSuccessful()) {
+                        Log.i(LOG_TAG, "The place successfully added!");
+                    } else {
+                        Log.i(LOG_TAG, "Failed to add the place!");
+                    }
                 }
 
                 @Override
                 public void onFailure(Call<Object> call, Throwable t) {
-
+                    Toast.makeText(getApplicationContext(), "Failed to add the place!", Toast.LENGTH_SHORT).show();
+                    Log.e(LOG_TAG, "Failed to add the place!", t);
                 }
             });
-            //TODO: post place
             return null;
         }
 
@@ -364,6 +365,7 @@ public class AddPlaceActivity extends AppCompatActivity {
         protected void onPostExecute(Void params) {
             super.onPostExecute(params);
             dialog.dismiss();
+            finish();
         }
     }
 }

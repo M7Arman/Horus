@@ -3,6 +3,7 @@ package com.arman.horus.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -65,7 +66,16 @@ public class BoardTabFragment extends Fragment {
 
     private void startAddItemActivity(Class activityClass) {
         Intent intent = new Intent(this.getContext(), activityClass);
-        startActivity(intent);
+        startActivityForResult(intent, 0);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        final FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.detach(this);
+        ft.attach(this);
+        ft.commit();
     }
 
     private void addPlacesListToBoard() {

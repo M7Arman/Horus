@@ -80,12 +80,13 @@ public class PlaceDetailActivity extends AppCompatActivity {
 
         // set image
         ImageView imageView = (ImageView) findViewById(R.id.place_detail_image);
-        Picasso.with(imageView.getContext())
-                .load(pDetail.images[0])
-                .placeholder(R.drawable.image_loading)
-                .error(R.drawable.oops)
-                .into(imageView);
-
+        if(pDetail.images != null && pDetail.images.length != 0) {
+            Picasso.with(imageView.getContext())
+                    .load(pDetail.images[0])
+                    .placeholder(R.drawable.image_loading)
+                    .error(R.drawable.oops)
+                    .into(imageView);
+        }
         // set address
         TextView fromAddressView = (TextView) findViewById(R.id.place_detail_address);
         fromAddressView.setText(pDetail.address.getDisplayName());

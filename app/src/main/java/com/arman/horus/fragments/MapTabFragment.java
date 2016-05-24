@@ -90,10 +90,14 @@ public class MapTabFragment extends Fragment implements OnMapReadyCallback, Goog
                 List<PlaceLocation> res = response.body();
                 BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.map_flag_places);
                 for (PlaceLocation placeLocation : res) {
-                    map.addMarker(new MarkerOptions()
-                            .icon(icon)
-                            .position(placeLocation.address.getLatLng())
-                            .title(placeLocation.title));
+                    try {
+                        map.addMarker(new MarkerOptions()
+                                .icon(icon)
+                                .position(placeLocation.address.getLatLng())
+                                .title(placeLocation.title));
+                    } catch (NullPointerException e) {
+                        Log.w(LOG_TAG, "Failed to add a marker for " + placeLocation.title + " place");
+                    }
                 }
             }
 

@@ -27,8 +27,8 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.addTab(tabLayout.newTab().setText("Board"));
         tabLayout.addTab(tabLayout.newTab().setText("Map"));
-        tabLayout.addTab(tabLayout.newTab().setText("Plans"));
-        tabLayout.addTab(tabLayout.newTab().setText("Profile"));
+//        tabLayout.addTab(tabLayout.newTab().setText("Plans"));
+//        tabLayout.addTab(tabLayout.newTab().setText("Profile"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
